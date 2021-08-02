@@ -15,18 +15,64 @@ public class mysqlinfo {
 
         Statement statement = null;
         Connection connection = null;
+        ResultSet resultSet = null;
         //注册驱动
         try {
             //注册驱动
-            Class.forName(driver);
+            try{
+                Class.forName(driver);
+            }catch (ClassNotFoundException e){
+                e.printStackTrace();
+            }
             //获取链接
             connection = DriverManager.getConnection(url, users, password);
             //获取数据库操作对象
             statement = connection.createStatement();
 
+            //执行sql语句
+            String sql= "select * from mysql.db ";
+            //不是以列的下标获取，是以列的名字获取的
+            //如果对列as重命名，需要用重命名后的列名
+            resultSet = statement.executeQuery(sql);
+            boolean flag =resultSet.next();
+            resultSet.next();
+            if (flag){
+                String A = resultSet.getString(1);
+                String B = resultSet.getString(2);
+                String C = resultSet.getString(3);
+                System.out.println(A+"+"+B+C);
+            }
+
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (resultSet != null){
+                try {
+                    resultSet.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+
+
+            if (statement != null){
+                try {
+                    statement.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+
+
+            if (connection != null){
+                try {
+                    connection.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            }
+
         }
 
 
