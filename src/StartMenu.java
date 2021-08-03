@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Scanner;
-import Mysqlinfo.mysqlinfo
+import Mysqlinfo.mysqlinfo;
 
 public class StartMenu {
     public static void main(String[] args) {
@@ -40,7 +40,11 @@ public class StartMenu {
             e.printStackTrace();
         }
         //获取链接
-        connection = Connection
+        try {
+            connection = DriverManager.getConnection(url,users,password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         //获取数据库操作对象
         //执行sql
         //处理结果集
@@ -53,7 +57,7 @@ public class StartMenu {
     * 初始用户界面
     * */
     private static Map<String, String> initUI() {
-        Scanner scanner =Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         System.out.println("用户名");
         String username = scanner.next();
         System.out.println("密码");
