@@ -33,21 +33,50 @@ public class StartMenu {
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
-        //注册驱动
+
         try {
+            //注册驱动
             Class.forName(driver);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        //获取链接
+
         try {
+            //获取链接
             connection = DriverManager.getConnection(url,users,password);
+            //获取数据库操作对象
+            statement=connection.createStatement();
+            //执行sql
+            String sql = "select * from mysql.userpasswd";
+            //处理结果集
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+
         }
-        //获取数据库操作对象
-        //执行sql
-        //处理结果集
+        if (resultSet !=null){
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (connection !=null){
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (statement !=null){
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         //释放资源
 
     }
