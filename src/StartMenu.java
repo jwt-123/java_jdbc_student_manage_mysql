@@ -1,11 +1,9 @@
+import javax.swing.*;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Scanner;
+import java.util.*;
 
 public class StartMenu {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         boolean loginIfSuccesse = false;
         Menu menu = new Menu();
         int choice = menu.start();
@@ -37,8 +35,88 @@ public class StartMenu {
             }
 
         }else if (choice ==3){    // 学生界面
-            
+            //初始化学生界面
+            Map<String,String> userLofginstudent = initUIstudent();
+            //验证用户名密码
+            loginIfSuccesse = studentLogin(userLofginstudent);
+            System.out.println(loginIfSuccesse?"登录成功":"登陆失败");
+            if (loginIfSuccesse){
+                /*
+                 * 此处输入学生权限操作
+                 * */
+            }
+
         }
+    }
+
+    private static boolean studentLogin(Map<String, String> userLofginstudent) throws SQLException {
+        ResourceBundle bundle = ResourceBundle.getBundle("jdbc");
+        String driver = bundle.getString("driver");
+        String url = bundle.getString("url");
+        String users = bundle.getString("users");
+        String password = bundle.getString("password");
+
+        boolean loginsucceed = false;
+
+        Connection connection =null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            Class.forName(driver);
+            connection=DriverManager.getConnection(url,users,password);
+            String sql = "select * from mysql.userpasswdteacher where user = ? and passwd = ?";  //暂时未改动
+            preparedStatement =connection.prepareStatement(sql);
+            preparedStatement.setString(1,initUITeacher().get("teacherName"));
+            preparedStatement.setString(2,initUITeacher().get("teacherpassword"));
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()){
+                loginsucceed = true;
+            }
+
+        }catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            if (resultSet !=null){
+                try {
+                    resultSet.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+
+            if (preparedStatement !=null){
+                try {
+                    resultSet.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+
+            if (connection !=null){
+                try {
+                    resultSet.close();
+                }catch (SQLException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+        return loginsucceed;
+    }
+
+    private static Map<String, String> initUIstudent() {
+        System.out.println("请输入学号");
+        Scanner scanner = new Scanner(System.in);
+        String studentnumber = scanner.next();
+        System.out.println("请输入密码");
+        String passwd = scanner.next();
+        Map<String,String> userLofginstudent = initUIstudent();
+        userLofginstudent.put("studentnumber",studentnumber);
+        userLofginstudent.put("passwd",passwd);
+        return initUIAdmin();
     }
 
     /*
