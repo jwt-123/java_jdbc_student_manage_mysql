@@ -43,6 +43,7 @@ public class StartMenu {
             if (loginIfSuccesse){
                 /*
                  * 此处输入学生权限操作
+                 *
                  * */
             }
 
@@ -56,6 +57,7 @@ public class StartMenu {
         String users = bundle.getString("users");
         String password = bundle.getString("password");
 
+        
         boolean loginsucceed = false;
 
         Connection connection =null;
