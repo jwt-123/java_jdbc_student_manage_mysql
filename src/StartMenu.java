@@ -4,7 +4,7 @@ import java.util.*;
 
 public class StartMenu {
     public static void main(String[] args) throws SQLException {
-        boolean loginIfSuccesse = false;
+        boolean loginIfSucceed = false;
         Menu menu = new Menu();
         int choice = menu.start();
         if (choice == 0){
@@ -13,10 +13,10 @@ public class StartMenu {
             //初始化管理员界面
             Map<String ,String> useLoginInfoAdmin = initUIAdmin();
             //验证用户名和密码
-            loginIfSuccesse = adminLogin(useLoginInfoAdmin);
+            loginIfSucceed = adminLogin(useLoginInfoAdmin);
             //最后输出结果
-            System.out.println(loginIfSuccesse?"登录成功":"登陆失败");
-            if (loginIfSuccesse){
+            System.out.println(loginIfSucceed?"登录成功":"登陆失败");
+            if (loginIfSucceed){
                 /*
                 * 此处输入管理员权限操作
                 * */
@@ -26,21 +26,21 @@ public class StartMenu {
             //初始化教师界面
             Map<String ,String > userLoginInfoTeacher = initUITeacher();
             //验证用户名和密码
-            loginIfSuccesse = teacherLogin(userLoginInfoTeacher);
-            System.out.println(loginIfSuccesse?"登录成功":"登陆失败");
-            if (loginIfSuccesse){
+            loginIfSucceed = teacherLogin(userLoginInfoTeacher);
+            System.out.println(loginIfSucceed?"登录成功":"登陆失败");
+            if (loginIfSucceed){
                 /*
                  * 此处输入老师权限操作
                  * */
             }
 
-        }else if (choice ==3){    // 学生界面
+        }else if (choice == 3){    // 学生界面
             //初始化学生界面
             Map<String,String> userLofginstudent = initUIstudent();
             //验证用户名密码
-            loginIfSuccesse = studentLogin(userLofginstudent);
-            System.out.println(loginIfSuccesse?"登录成功":"登陆失败");
-            if (loginIfSuccesse){
+            loginIfSucceed = studentLogin(userLofginstudent);
+            System.out.println(loginIfSucceed?"登录成功":"登陆失败");
+            if (loginIfSucceed){
                 /*
                  * 此处输入学生权限操作
                  *
@@ -50,7 +50,13 @@ public class StartMenu {
         }
     }
 
+    /*
+    *验证学生登录
+    * */
     private static boolean studentLogin(Map<String, String> userLofginstudent) throws SQLException {
+
+        boolean loginsucceed = false;
+
         ResourceBundle bundle = ResourceBundle.getBundle("jdbc");
         String driver = bundle.getString("driver");
         String url = bundle.getString("url");
@@ -58,7 +64,7 @@ public class StartMenu {
         String password = bundle.getString("password");
 
 
-        boolean loginsucceed = false;
+
 
 
         Connection connection =null;
@@ -66,12 +72,17 @@ public class StartMenu {
         ResultSet resultSet = null;
 
         try {
+            // 注册驱动
             Class.forName(driver);
+            //获取链接
             connection=DriverManager.getConnection(url,users,password);
-            String sql = "select * from mysql.userpasswdteacher where user = ? and passwd = ?";  //暂时未改动
+            //获取操作对象
+            String sql = "select * from mysql.userpasswdstudent where user = ? and passwd = ?";
+
             preparedStatement =connection.prepareStatement(sql);
-            preparedStatement.setString(1,initUITeacher().get("teacherName"));
-            preparedStatement.setString(2,initUITeacher().get("teacherpassword"));
+            preparedStatement.setString(1,userLofginstudent.get("studentnumber"));
+            preparedStatement.setString(2,userLofginstudent.get("passwd"));
+
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()){
@@ -110,16 +121,19 @@ public class StartMenu {
         return loginsucceed;
     }
 
+    /*
+    *  初始学生界面
+    * */
     private static Map<String, String> initUIstudent() {
-        System.out.println("请输入学号");
         Scanner scanner = new Scanner(System.in);
+        System.out.println("请输入学号");
         String studentnumber = scanner.next();
         System.out.println("请输入密码");
         String passwd = scanner.next();
-        Map<String,String> userLofginstudent = initUIstudent();
+        Map<String,String> userLofginstudent = new HashMap<>();
         userLofginstudent.put("studentnumber",studentnumber);
         userLofginstudent.put("passwd",passwd);
-        return initUIAdmin();
+        return userLofginstudent;
     }
 
     /*
@@ -147,8 +161,8 @@ public class StartMenu {
             //获取操作对象
             String sql = "select * from mysql.userpasswdteacher where user = ? and passwd = ?";
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,initUITeacher().get("teacherName"));
-            preparedStatement.setString(2,initUITeacher().get("teacherpassword"));
+            preparedStatement.setString(1,userLoginInfoTeacher.get("teacherName"));
+            preparedStatement.setString(2,userLoginInfoTeacher.get("teacherpassword"));
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()){
@@ -169,6 +183,7 @@ public class StartMenu {
                     e.printStackTrace();
                 }
             }
+
             if (preparedStatement != null){
                 try {
                     preparedStatement.close();
@@ -218,7 +233,6 @@ public class StartMenu {
 
         //jdbc代码
         Connection connection = null;
-        Statement statement = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
@@ -233,7 +247,7 @@ public class StartMenu {
             //获取链接
             connection = DriverManager.getConnection(url,users,password);
             //获取数据库操作对象
-            statement=connection.createStatement();
+//            statement=connection.createStatement();
             //执行sql2
 
             String sql = "select * from mysql.userpasswdadmin where user = ? and passwd = ? ";
@@ -255,9 +269,9 @@ public class StartMenu {
             e.printStackTrace();
         } finally {
 
-            if (resultSet !=null){
+            if (preparedStatement !=null){
                 try {
-                    resultSet.close();
+                    preparedStatement.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -271,9 +285,9 @@ public class StartMenu {
                 }
             }
 
-            if (statement !=null){
+            if (resultSet !=null){
                 try {
-                    statement.close();
+                    resultSet .close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -300,6 +314,7 @@ public class StartMenu {
         return useLoginInfo;
     }
 }
+
 
 
 class Menu{
