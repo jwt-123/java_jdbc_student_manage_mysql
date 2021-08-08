@@ -9,7 +9,7 @@ public class StartMenu {
     public static void main(String[] args) throws SQLException {
 
         Scanner scanner = new Scanner(System.in);
-        int a = scanner.nextInt();
+//        int a = scanner.nextInt();
         admin_grade adminPower = new admin_grade();
         //admin 权限
 //        adminPower.selectLessonFromClass(a);//根据课号查课程名
@@ -50,50 +50,87 @@ public class StartMenu {
                 /*
                  * 此处输入管理员权限操作
                  * */
-                System.out.println("1.根据课号查课程名");
-                System.out.println("2.根据学号查学生名");
-                System.out.println("3.根据课程号查不及格学生");
-                System.out.println("4.按照学号查总分数");
-                System.out.println("5.按学号查一个人总分");
-                System.out.println("6.查所有科目总分");
-                System.out.println("7.计算比80分高的人");
-                System.out.println("8.计算比60分高的人");
-                System.out.println("9.计算比60分低的人");
 
 
-                int adminChoice = 0;
-                System.out.println("请输入选择");
-                adminChoice = scanner.nextInt();
-                switch (adminChoice){
-                    case 1:{
+
+
+                String nextToDo = "Y";
+                while (nextToDo.equals("Y")){
+
+                    System.out.println("1.根据课号查课程名");
+                    System.out.println("2.根据学号查学生名");
+                    System.out.println("3.根据课程号查不及格学生");
+                    System.out.println("4.按照学号查总分数");
+                    System.out.println("5.按学号查一个人总分");
+                    System.out.println("6.查所有科目总分");
+                    System.out.println("7.计算比80分高的人");
+                    System.out.println("8.计算比60分高的人");
+                    System.out.println("9.计算比60分低的人");
+
+
+                    int adminChoice = 0;
+                    System.out.println("请输入选择");
+                    adminChoice = scanner.nextInt();
+                    switch (adminChoice){
+                        case 1:{
+                            int a = scanner.nextInt();
+                            adminPower.selectLessonFromClass(a);
+                            break;
+                        }
+                        case 2:{
+                            int a = scanner.nextInt();
+                            adminPower.selectStudentFromClass(a);
+                            break;
+                        }
+                        case 3:{
+                            int a = scanner.nextInt();
+                            adminPower.selectFailedStudent(a);
+                            break;
+                        }
+                        case 4:{
+                            int a = scanner.nextInt();
+                            adminPower.selectTotalScoreFromStudent(a);
+                            break;
+                        }
+                        case 5:{
+                            int a = scanner.nextInt();
+                            adminPower.selectEachScoreFromStudent(a);
+                            break;
+                        }
+                        case 6:{
+                            int a = scanner.nextInt();
+                            adminPower.calculate_Each_Lesson_Total_Score();
+                            break;
+                        }
+                        case 7:{
+                            int a = scanner.nextInt();
+                            adminPower.calculate_Lesson_Score_0ver80(a);
+                            break;
+                        }
+                        case 8:{
+                            int a = scanner.nextInt();
+                            adminPower.calculate_Lesson_Score_0ver60(a);
+                            break;
+
+                        }
+                        case 9:{
+                            int a = scanner.nextInt();
+                            adminPower.calculate_Lesson_Score_Low60(a);
+                            break;
+                        } default:{
+
+                        }
+
+                        System.out.println("是否继续操作？按F退出");
+
+                        nextToDo = scanner.next();
+                        if (nextToDo.equals("F")|nextToDo.equals("f")){
+                            break;
+                        }
 
                     }
-                    case 2:{
-
-                    }
-                    case 3:{
-
-                    }
-                    case 4:{
-
-                    }
-                    case 5:{
-
-                    }
-                    case 6:{
-
-                    }
-                    case 7:{
-
-                    }
-                    case 8:{
-
-                    }
-                    case 9:{
-
-                    }
-
                 }
+
 
             } else if (choice == 2) {   // 教师界面
                 //初始化教师界面
@@ -105,6 +142,57 @@ public class StartMenu {
                     /*
                      * 此处输入老师权限操作
                      * */
+
+                    String nextToDo = "Y";
+                    while (nextToDo.equals("Y")){
+                        System.out.println("1.根据课号查课程名");
+                        System.out.println("2.根据学号查学生名");
+                        System.out.println("3.根据课程号查不及格学生");
+                        System.out.println("4.按照学号查总分数");
+                        System.out.println("5.按学号查一个人总分");
+
+
+                        int teacherChoice = 0;
+                        System.out.println("请输入选择");
+                        teacherChoice = scanner.nextInt();
+                        switch (teacherChoice){
+                            case 1:{
+                                int a = scanner.nextInt();
+                                adminPower.selectLessonFromClass(a);
+                            }
+                            case 2:{
+                                int a = scanner.nextInt();
+                                adminPower.selectStudentFromClass(a);
+                            }
+                            case 3:{
+                                int a = scanner.nextInt();
+                                adminPower.selectFailedStudent(a);
+                            }
+                            case 4:{
+                                int a = scanner.nextInt();
+                                adminPower.selectTotalScoreFromStudent(a);
+                            }
+                            case 5:{
+                                int a = scanner.nextInt();
+                                adminPower.selectEachScoreFromStudent(a);
+                            } default:{
+                                System.out.println("输入错误，请重新输入");
+                            }
+
+                            System.out.println("是否继续操作？按F退出");
+
+                            nextToDo = scanner.next();
+                            if (nextToDo.equals("F")|nextToDo.equals("f")){
+                                break;
+                            }
+
+                        }
+
+                }
+
+
+
+
                 }
 
             } else if (choice == 3) {    // 学生界面
@@ -118,12 +206,31 @@ public class StartMenu {
                      * 此处输入学生权限操作
                      *
                      * */
+
+                    String nextToDo = "Y";
+                    while (nextToDo.equals("Y")){
+                        System.out.println("查自己分数");
+                        int a = scanner.nextInt();
+                        studentPower.selectMyScore(a);
+
+                        System.out.println("是否继续操作？按F退出");
+
+                        nextToDo = scanner.next();
+                        if (nextToDo.equals("F")|nextToDo.equals("f")){
+                            break;
+                        }
+
+                    }
+
+
+
+
+                }
                 }
 
             }
 
         }
-    }
 
     /*
     *验证学生登录
