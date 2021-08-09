@@ -6,11 +6,11 @@ public interface Grade_2 {
 
 //    按班级统计各分数段人数及比例
 
-    void calculate_Lesson_Score_0ver80();    //超过80分的人
+    void calculate_Lesson_Score_0ver80(int a);    //超过80分的人
 
-    void calculate_Lesson_Score_0ver60();    //超过60分的人
+    void calculate_Lesson_Score_0ver60( int a);    //超过60分的人
 
-    void calculate_Lesson_Score_Low60();    //低于60分的人
+    void calculate_Lesson_Score_Low60( int a);    //低于60分的人
 
 
 }
