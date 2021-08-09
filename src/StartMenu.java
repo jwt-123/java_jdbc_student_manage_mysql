@@ -8,6 +8,9 @@ import Authority.*;
 public class StartMenu {
     public static void main(String[] args) throws SQLException {
 
+        changeStudentInformationResult changeStudentInformationResult = new changeStudentInformationResult();
+        changeStudentInformationResult.addStudentInformation();
+
         Scanner scanner = new Scanner(System.in);
 //        int a = scanner.nextInt();
         admin_grade adminPower = new admin_grade();

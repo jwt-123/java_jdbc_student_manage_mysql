@@ -1,14 +1,32 @@
-package Authority;
+package Mysqlinfo;
+
+import com.mysql.cj.exceptions.ClosedOnExpiredPasswordException;
 
 import java.sql.*;
 import java.util.ResourceBundle;
 
-import static java.lang.Class.forName;
+public class dataChange {
 
-public class admin_grade implements Grade_2, Grade_1 {
+//    - 添加数据
+//  -  添加学生
+//  -  添加课程
+//  -  添加选课
+//- 编辑数据 改
+//  - 修改学生
+//  - 修改课程
+//  - 修改选课
+//- 查询数据 删
+//  - 删除学生
+//  - 删除课程
+//  - 删除选课
 
 
-    public void selectLessonFromClass(int a) {
+    /*
+    *添加数据
+     */
+
+    public void insertStudent(int studentID, String studentName, int sex, int ages, String dept) {
+        //////////////////////////////////////////////////////////////////////
         ResourceBundle bundle = ResourceBundle.getBundle("jdbc");
 
         String driver = bundle.getString("driver");
@@ -18,27 +36,34 @@ public class admin_grade implements Grade_2, Grade_1 {
 
         Connection connection = null;
         PreparedStatement preparedStatement =null;
-        ResultSet resultSet =null;
 
         try {
-            forName(driver);
+            Class.forName(driver);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
+
+
         try {
+
             connection = DriverManager.getConnection(url,users,password);
 
-            String sql = "select cname from mysql.c where cno = ?";
+            String sql = "INSERT INTO mysql.s (sno, sname, sex, age, dept) VALUES (?, ?, ?, ?, ?)";//sql语句
 
             preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setInt(1,a);
-            resultSet= preparedStatement.executeQuery();
-            while (resultSet.next()){
-                System.out.println(resultSet.getString(1));
-            }
+            preparedStatement.setInt(1,studentID);
+            preparedStatement.setString(2,studentName);
+            preparedStatement.setInt(3,sex);
+            preparedStatement.setInt(4,ages);
+            preparedStatement.setString(5,dept);
 
+            preparedStatement.execute();//此处有问题
+
+
+
+            //        preparedStatement.setString();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,18 +84,15 @@ public class admin_grade implements Grade_2, Grade_1 {
                 }
             }
 
-            if (resultSet != null){
-                try {
-                    resultSet.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
+
+////////////////////////////////////
+
+
     }
 
-
-    public void selectStudentFromClass(int a) {
+    public void insertLesson(int lessonID,String lessonName,String teacherName,int credit){
+        //////////////////////////////////////////////////////////////////////
         ResourceBundle bundle = ResourceBundle.getBundle("jdbc");
 
         String driver = bundle.getString("driver");
@@ -80,28 +102,24 @@ public class admin_grade implements Grade_2, Grade_1 {
 
         Connection connection = null;
         PreparedStatement preparedStatement =null;
-        ResultSet resultSet =null;
 
         try {
-            forName(driver);
+            Class.forName("driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
+
+
         try {
+
             connection = DriverManager.getConnection(url,users,password);
 
-            String sql = "select distinct s.sno,sname,sex,age,dept from mysql.s,mysql.sc where mysql.sc.sno=mysql.s.sno and cno = ?";
+            String sql = " ";//sql语句
 
             preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setInt(1,a);
-            resultSet= preparedStatement.executeQuery();
-            System.out.println("学号 姓名 性别 年龄 专业 （性别1为男，0为女）");
-            while (resultSet.next()) {
-                System.out.println(resultSet.getInt(1) + " " + resultSet.getString(2) + " " + resultSet.getInt(3) + "   " + resultSet.getInt(4) + "  " + resultSet.getString(5));
-            }
-
+            //        preparedStatement.setString();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -122,17 +140,13 @@ public class admin_grade implements Grade_2, Grade_1 {
                 }
             }
 
-            if (resultSet != null){
-                try {
-                    resultSet.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
+
+////////////////////////////////////
     }
 
-    public void selectFailedStudent(int a) {  //此处a是课程号
+    public void insertLesson(int studentID,int lessonID,int grade,int credit){
+        //////////////////////////////////////////////////////////////////////
         ResourceBundle bundle = ResourceBundle.getBundle("jdbc");
 
         String driver = bundle.getString("driver");
@@ -142,28 +156,24 @@ public class admin_grade implements Grade_2, Grade_1 {
 
         Connection connection = null;
         PreparedStatement preparedStatement =null;
-        ResultSet resultSet =null;
 
         try {
-            forName(driver);
+            Class.forName("driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
+
+
         try {
+
             connection = DriverManager.getConnection(url,users,password);
 
-            String sql = "select distinct sc.sno,sname from mysql.sc,mysql.s where sc.sno=s.sno and grade<60 and cno = ?";
+            String sql = " ";//sql语句
 
             preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setInt(1,a);
-            resultSet= preparedStatement.executeQuery();
-            System.out.println("学号 姓名");
-            while (resultSet.next()){
-                System.out.println(resultSet.getString(1)+resultSet.getString(2));
-            }
-
+            //        preparedStatement.setString();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -184,18 +194,18 @@ public class admin_grade implements Grade_2, Grade_1 {
                 }
             }
 
-            if (resultSet != null){
-                try {
-                    resultSet.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
+
+////////////////////////////////////
     }
 
 
-    public void selectTotalScoreFromStudent(int a) { //按照学号查总分数
+    /*
+    *修改数据
+     */
+
+    public void changeStudent(int studentID, String studentName, int sex, int ages, String dept){
+        //////////////////////////////////////////////////////////////////////
         ResourceBundle bundle = ResourceBundle.getBundle("jdbc");
 
         String driver = bundle.getString("driver");
@@ -205,28 +215,24 @@ public class admin_grade implements Grade_2, Grade_1 {
 
         Connection connection = null;
         PreparedStatement preparedStatement =null;
-        ResultSet resultSet =null;
 
         try {
-            forName(driver);
+            Class.forName("driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
+
+
         try {
+
             connection = DriverManager.getConnection(url,users,password);
 
-            String sql = "select sum(grade) from mysql.sc where sno = ?";
+            String sql = " ";//sql语句
 
             preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setInt(1,a);
-            resultSet= preparedStatement.executeQuery();
-            System.out.println("总分");
-            while (resultSet.next()){
-                System.out.println(resultSet.getString(1));
-            }
-
+            //        preparedStatement.setString();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -247,17 +253,14 @@ public class admin_grade implements Grade_2, Grade_1 {
                 }
             }
 
-            if (resultSet != null){
-                try {
-                    resultSet.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
+
+////////////////////////////////////
+
     }
 
-    public void selectEachScoreFromStudent(int a) {
+    public void changeLesson(int lessonID,String lessonName,String teacherName,int credit){
+        //////////////////////////////////////////////////////////////////////
         ResourceBundle bundle = ResourceBundle.getBundle("jdbc");
 
         String driver = bundle.getString("driver");
@@ -267,28 +270,24 @@ public class admin_grade implements Grade_2, Grade_1 {
 
         Connection connection = null;
         PreparedStatement preparedStatement =null;
-        ResultSet resultSet =null;
 
         try {
-            forName(driver);
+            Class.forName("driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
+
+
         try {
+
             connection = DriverManager.getConnection(url,users,password);
 
-            String sql = "select cname,grade from mysql.sc,mysql.c where c.cno=sc.cno and  sno = ?";
+            String sql = " ";//sql语句
 
             preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setInt(1,a);
-            resultSet= preparedStatement.executeQuery();
-            System.out.println("科目 分数");
-            while (resultSet.next()){
-                System.out.println(resultSet.getString(1)+" "+resultSet.getInt(2));
-            }
-
+            //        preparedStatement.setString();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -309,17 +308,14 @@ public class admin_grade implements Grade_2, Grade_1 {
                 }
             }
 
-            if (resultSet != null){
-                try {
-                    resultSet.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
+
+////////////////////////////////////
+
     }
 
-    public void calculate_Each_Lesson_Total_Score() {
+    public void changeLesson(int studentID,int lessonID,int grade,int credit){
+        //////////////////////////////////////////////////////////////////////
         ResourceBundle bundle = ResourceBundle.getBundle("jdbc");
 
         String driver = bundle.getString("driver");
@@ -329,28 +325,24 @@ public class admin_grade implements Grade_2, Grade_1 {
 
         Connection connection = null;
         PreparedStatement preparedStatement =null;
-        ResultSet resultSet =null;
 
         try {
-            forName(driver);
+            Class.forName("driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
+
+
         try {
+
             connection = DriverManager.getConnection(url,users,password);
 
-            String sql = "select cname,sum(grade) from mysql.sc,mysql.c where c.cno=sc.cno group by  1";
+            String sql = " ";//sql语句
 
             preparedStatement = connection.prepareStatement(sql);
 
-
-            resultSet= preparedStatement.executeQuery();
-            System.out.println("科目 分数");
-            while (resultSet.next()){
-                System.out.println(resultSet.getString(1)+" "+resultSet.getInt(2));
-            }
-
+            //        preparedStatement.setString();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -371,17 +363,19 @@ public class admin_grade implements Grade_2, Grade_1 {
                 }
             }
 
-            if (resultSet != null){
-                try {
-                    resultSet.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
+
+////////////////////////////////////
+
     }
 
-    public void calculate_Lesson_Score_0ver80(int a) {
+
+    /*
+    *删除数据
+     */
+
+    public void deleteStudent(int studentID, String studentName, int sex, int ages, String dept){
+        //////////////////////////////////////////////////////////////////////
         ResourceBundle bundle = ResourceBundle.getBundle("jdbc");
 
         String driver = bundle.getString("driver");
@@ -391,27 +385,24 @@ public class admin_grade implements Grade_2, Grade_1 {
 
         Connection connection = null;
         PreparedStatement preparedStatement =null;
-        ResultSet resultSet =null;
 
         try {
-            forName(driver);
+            Class.forName("driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
+
+
         try {
+
             connection = DriverManager.getConnection(url,users,password);
 
-            String sql = "select s.sno,sname,grade from mysql.sc,mysql.s where s.sno=sc.sno and cno = ? and grade >80";
+            String sql = " ";//sql语句
+
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1,a);
 
-            resultSet= preparedStatement.executeQuery();
-            System.out.println("学号  姓名  分数 ");
-            while (resultSet.next()){
-                System.out.println(""+resultSet.getInt(1)+" "+resultSet.getString(2)+" "+resultSet.getInt(3));
-            }
-
+            //        preparedStatement.setString();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -432,17 +423,13 @@ public class admin_grade implements Grade_2, Grade_1 {
                 }
             }
 
-            if (resultSet != null){
-                try {
-                    resultSet.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
+
+////////////////////////////////////
     }
 
-    public void calculate_Lesson_Score_0ver60(int a ) {
+    public void deleteLesson(int lessonID,String lessonName,String teacherName,int credit){
+        //////////////////////////////////////////////////////////////////////
         ResourceBundle bundle = ResourceBundle.getBundle("jdbc");
 
         String driver = bundle.getString("driver");
@@ -452,27 +439,24 @@ public class admin_grade implements Grade_2, Grade_1 {
 
         Connection connection = null;
         PreparedStatement preparedStatement =null;
-        ResultSet resultSet =null;
 
         try {
-            forName(driver);
+            Class.forName("driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
+
+
         try {
+
             connection = DriverManager.getConnection(url,users,password);
 
-            String sql = "select s.sno,sname,grade from mysql.sc,mysql.s where s.sno=sc.sno and cno = ? and grade >60";
+            String sql = " ";//sql语句
+
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1,a);
 
-            resultSet= preparedStatement.executeQuery();
-            System.out.println("学号  姓名  分数 ");
-            while (resultSet.next()){
-                System.out.println(""+resultSet.getInt(1)+" "+resultSet.getString(2)+" "+resultSet.getInt(3));
-            }
-
+            //        preparedStatement.setString();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -493,17 +477,13 @@ public class admin_grade implements Grade_2, Grade_1 {
                 }
             }
 
-            if (resultSet != null){
-                try {
-                    resultSet.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
+
+////////////////////////////////////
     }
 
-    public void calculate_Lesson_Score_Low60(int a ) {
+    public void deleteLesson(int studentID,int lessonID,int grade,int credit){
+        //////////////////////////////////////////////////////////////////////
         ResourceBundle bundle = ResourceBundle.getBundle("jdbc");
 
         String driver = bundle.getString("driver");
@@ -513,27 +493,24 @@ public class admin_grade implements Grade_2, Grade_1 {
 
         Connection connection = null;
         PreparedStatement preparedStatement =null;
-        ResultSet resultSet =null;
 
         try {
-            forName(driver);
+            Class.forName("driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
+
+
         try {
+
             connection = DriverManager.getConnection(url,users,password);
 
-            String sql = "select s.sno,sname,grade from mysql.sc,mysql.s where s.sno=sc.sno and cno = ? and grade <60";
+            String sql = " ";//sql语句
+
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1,a);
 
-            resultSet= preparedStatement.executeQuery();
-            System.out.println("学号  姓名  分数 ");
-            while (resultSet.next()){
-                System.out.println(""+resultSet.getInt(1)+" "+resultSet.getString(2)+" "+resultSet.getInt(3));
-            }
-
+            //        preparedStatement.setString();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -554,14 +531,11 @@ public class admin_grade implements Grade_2, Grade_1 {
                 }
             }
 
-            if (resultSet != null){
-                try {
-                    resultSet.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
+
+////////////////////////////////////
+
     }
+
+
 }
-
