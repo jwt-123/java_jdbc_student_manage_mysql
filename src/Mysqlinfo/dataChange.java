@@ -59,9 +59,9 @@ public class dataChange {
             preparedStatement.setInt(4,ages);
             preparedStatement.setString(5,dept);
 
-            preparedStatement.execute();//此处有问题
+//            preparedStatement.execute();//此处有问题
 
-
+            System.out.println( preparedStatement.executeUpdate());
 
             //        preparedStatement.setString();
 
@@ -115,10 +115,16 @@ public class dataChange {
 
             connection = DriverManager.getConnection(url,users,password);
 
-            String sql = " ";//sql语句
+            String sql = "INSERT INTO mysql.c (cno, cname, tname, credit) VALUES (?, ?, ?, ?) ";//sql语句
 
             preparedStatement = connection.prepareStatement(sql);
 
+            preparedStatement.setInt(1,lessonID);
+            preparedStatement.setString(2,lessonName);
+            preparedStatement.setString(3,teacherName);
+            preparedStatement.setInt(4,credit);
+
+            System.out.println( preparedStatement.executeUpdate());
             //        preparedStatement.setString();
 
         } catch (SQLException e) {

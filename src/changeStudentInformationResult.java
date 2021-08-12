@@ -30,6 +30,25 @@ public class changeStudentInformationResult {
         System.out.println("请输入专业");
         String dept = scanner.next();
         dataChange addStudent = new dataChange();
-        addStudent.changeStudent( studentID,  studentName,  sex,  ages,  dept);
+        addStudent.insertStudent( studentID,  studentName,  sex,  ages,  dept);
     }
+
+    public void addLessonInformation(){
+        System.out.println("插入课程信息");
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("请输入课号");
+        int lessonID =scanner.nextInt();
+        System.out.println("请输入课程名");
+        String lessonName = scanner.next();
+        System.out.println("请输入老师名");
+        String teacherName = scanner.next();
+        System.out.println("请输入学分");
+        int credit = scanner.nextInt();
+
+        dataChange insertLesson = new dataChange();
+        insertLesson.insertLesson( lessonID,  lessonName,  teacherName,  credit);
+    }
+
+
 }
+

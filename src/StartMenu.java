@@ -1,4 +1,4 @@
-import Mysqlinfo.mysqlinfo;
+//import Mysqlinfo.mysqlinfo;
 
 import javax.swing.*;
 import java.sql.*;
@@ -8,8 +8,10 @@ import Authority.*;
 public class StartMenu {
     public static void main(String[] args) throws SQLException {
 
+
+
         changeStudentInformationResult changeStudentInformationResult = new changeStudentInformationResult();
-        changeStudentInformationResult.addStudentInformation();
+        changeStudentInformationResult.addLessonInformation();
 
         Scanner scanner = new Scanner(System.in);
 //        int a = scanner.nextInt();
