@@ -35,17 +35,25 @@ public class StartMenu {
 //        teacherPower.selectFailedStudent(a);
 //        teacherPower.selectTotalScoreFromStudent(a);
 //        teacherPower.selectEachScoreFromStudent(a);
-
         student_grade studentPower = new student_grade();
 //        studentPower.selectMyScore(a);
 
 
         boolean loginIfSucceed = false;
+
         Menu menu = new Menu();
-        int choice = menu.start();
+
+
+        Integer choice = menu.start();
+
+
         if (choice == 0) {
             System.out.println("error");
-        } else if (choice == 1) {    //管理员界面
+        }
+
+
+        if (choice == 1) {
+            //管理员界面
             //初始化管理员界面
             Map<String, String> useLoginInfoAdmin = initUIAdmin();
             //验证用户名和密码
@@ -53,12 +61,10 @@ public class StartMenu {
             //最后输出结果
             System.out.println(loginIfSucceed ? "登录成功" : "登陆失败");
             if (loginIfSucceed) {
+
                 /*
                  * 此处输入管理员权限操作
                  * */
-
-
-
 
                 String nextToDo = "Y";
                 while (nextToDo.equals("Y")){
@@ -213,8 +219,13 @@ public class StartMenu {
                 }
 
 
-            } else if (choice == 2) {   // 教师界面
+            }
+        }
+
+
+        if (choice == 2) {   // 教师界面
                 //初始化教师界面
+
                 Map<String, String> userLoginInfoTeacher = initUITeacher();
                 //验证用户名和密码
                 loginIfSucceed = teacherLogin(userLoginInfoTeacher);
@@ -281,8 +292,11 @@ public class StartMenu {
 
                 }
 
-            } else if (choice == 3) {    // 学生界面
+            }
+
+        if (choice == 3) {    // 学生界面
                 //初始化学生界面
+
                 Map<String, String> userLofginstudent = initUIstudent();
                 //验证用户名密码
                 loginIfSucceed = studentLogin(userLofginstudent);
@@ -314,7 +328,45 @@ public class StartMenu {
                 }
                 }
 
-            }
+
+//
+//            switch (choice){
+//
+//                case 1:{
+//
+//
+//                }
+//                case 2:{
+//
+//                }
+//                case 3:{
+//
+//                }
+//            }
+//
+//
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         }
 
@@ -433,6 +485,7 @@ public class StartMenu {
             //获取链接
             connection =DriverManager.getConnection(url,users,password);
             //获取操作对象
+
             String sql = "select * from mysql.users where hm = ? and pwd = ? ";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,userLoginInfoTeacher.get("teacherName"));
@@ -446,7 +499,6 @@ public class StartMenu {
                 }else{
                     System.out.println("权限错误 重新输入");
                 }
-
             }
             //顶
 
@@ -605,6 +657,21 @@ public class StartMenu {
 
 
 class Menu{
+
+
+    public int getChoice_to_changeBUG() {
+        return Choice_to_changeBUG;
+    }
+
+    public void setChoice_to_changeBUG(int choice_to_changeBUG) {
+        Choice_to_changeBUG = choice_to_changeBUG;
+    }
+
+    private int Choice_to_changeBUG =2;
+
+
+
+
     Menu(){{
         System.out.println("请输入要登录的用户");
         System.out.println("1.管理员");
@@ -617,21 +684,35 @@ class Menu{
         Scanner scanner = new Scanner(System.in);
         while (true) {
             int choice = scanner.nextInt();
+
             if (choice ==1){
                 System.out.println("管理员界面");
-                return choice;
-            }else if (choice ==2){
+                return 1;
+            }
+
+            if (choice ==2){
                 System.out.println("教师界面");
-                return choice;
-            }else if (choice ==3){
+
+                setChoice_to_changeBUG(2);
+//                int i = 2;
+//                return i;
+                return 2;
+            }
+
+            if (choice ==3){
                 System.out.println("学生界面");
-                return choice;
+
+//                System.out.println("123");
+                setChoice_to_changeBUG(3);
+//                int i = 3;
+//                return i;
+                return 3;
+
             }else {
                 choice = 0;
                 System.out.println("输入有误 请重新输入");
                 continue;
             }
-
         }
     }
 
