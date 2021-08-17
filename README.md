@@ -9,7 +9,7 @@
 
 登录后有个菜单
 
-
+=============================================
 准备的功能：
 
 - 添加数据 
@@ -124,3 +124,6 @@ INSERT INTO mysql.sc (sno, cno, grade,credit) VALUES (1906, 105, 73,2);
 INSERT INTO mysql.users (hm,pwd,role) VALUES ('admin','admin', 2);
 INSERT INTO mysql.users (hm,pwd,role) VALUES ('teacher','teacher', 1);
 INSERT INTO mysql.users (hm,pwd,role) VALUES ('student','student', 0);
+
+
+# =============================================================
