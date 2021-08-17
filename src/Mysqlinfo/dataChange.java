@@ -104,7 +104,7 @@ public class dataChange {
         PreparedStatement preparedStatement =null;
 
         try {
-            Class.forName("driver");
+            Class.forName(driver);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -151,7 +151,7 @@ public class dataChange {
 ////////////////////////////////////
     }
 
-    public void insertLesson(int studentID,int lessonID,int grade,int credit){
+    public void insertChooseLesson(int studentID,int lessonID,int grade,int credit){ //插入选课信息
         //////////////////////////////////////////////////////////////////////
         ResourceBundle bundle = ResourceBundle.getBundle("jdbc");
 
@@ -164,7 +164,7 @@ public class dataChange {
         PreparedStatement preparedStatement =null;
 
         try {
-            Class.forName("driver");
+            Class.forName(driver);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -175,9 +175,16 @@ public class dataChange {
 
             connection = DriverManager.getConnection(url,users,password);
 
-            String sql = " ";//sql语句
+            String sql = "INSERT INTO mysql.sc (sno, cno, grade, credit) VALUES (?, ?, ?, ?)";//sql语句
 
             preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1,studentID);
+            preparedStatement.setInt(2,lessonID);
+            preparedStatement.setInt(3,grade);
+            preparedStatement.setInt(4,credit);
+
+            preparedStatement.executeUpdate();
 
             //        preparedStatement.setString();
 
@@ -210,7 +217,9 @@ public class dataChange {
     *修改数据
      */
 
-    public void changeStudent(int studentID, String studentName, int sex, int ages, String dept){
+
+
+    public void changeStudent(int studentID, String studentName, int sex, int ages, String dept) {
         //////////////////////////////////////////////////////////////////////
         ResourceBundle bundle = ResourceBundle.getBundle("jdbc");
 
@@ -223,7 +232,7 @@ public class dataChange {
         PreparedStatement preparedStatement =null;
 
         try {
-            Class.forName("driver");
+            Class.forName(driver);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -234,9 +243,20 @@ public class dataChange {
 
             connection = DriverManager.getConnection(url,users,password);
 
-            String sql = " ";//sql语句
+            String sql = "update mysql.s set  sname=?, sex=?, age=?, dept=? where sno = ? ORDER BY SNO";//sql语句
 
             preparedStatement = connection.prepareStatement(sql);
+
+
+            preparedStatement.setString(1,studentName);
+            preparedStatement.setInt(2,sex);
+            preparedStatement.setInt(3,ages);
+            preparedStatement.setString(4,dept);
+            preparedStatement.setInt(5,studentID);
+
+//            preparedStatement.execute();//此处有问题
+
+            System.out.println( preparedStatement.executeUpdate());
 
             //        preparedStatement.setString();
 
@@ -263,9 +283,10 @@ public class dataChange {
 
 ////////////////////////////////////
 
+
     }
 
-    public void changeLesson(int lessonID,String lessonName,String teacherName,int credit){
+    public void changeLesson(int cno,String cname,String teacherName,int credit){
         //////////////////////////////////////////////////////////////////////
         ResourceBundle bundle = ResourceBundle.getBundle("jdbc");
 
@@ -278,7 +299,7 @@ public class dataChange {
         PreparedStatement preparedStatement =null;
 
         try {
-            Class.forName("driver");
+            Class.forName(driver);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -289,10 +310,22 @@ public class dataChange {
 
             connection = DriverManager.getConnection(url,users,password);
 
-            String sql = " ";//sql语句
+//            String sql = "INSERT INTO mysql.c (cno, cname, tname, credit) VALUES (?, ?, ?, ?) ";//sql语句
+
+            String sql = "update mysql.c set cname=?,tname=?,credit=?  where cno = ? ORDER BY cNO";
+
+            /*
+            cno 作为主键是不能改变的
+             */
 
             preparedStatement = connection.prepareStatement(sql);
 
+            preparedStatement.setString(1,cname);
+            preparedStatement.setString(2,teacherName);
+            preparedStatement.setInt(3,credit);
+            preparedStatement.setInt(4,cno);
+
+            System.out.println( preparedStatement.executeUpdate());
             //        preparedStatement.setString();
 
         } catch (SQLException e) {
@@ -317,10 +350,9 @@ public class dataChange {
         }
 
 ////////////////////////////////////
-
     }
 
-    public void changeLesson(int studentID,int lessonID,int grade,int credit){
+    public void changeChooseLesson(int studentID,int lessonID,int grade,int credit){ //插入选课信息
         //////////////////////////////////////////////////////////////////////
         ResourceBundle bundle = ResourceBundle.getBundle("jdbc");
 
@@ -333,7 +365,7 @@ public class dataChange {
         PreparedStatement preparedStatement =null;
 
         try {
-            Class.forName("driver");
+            Class.forName(driver);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -344,10 +376,22 @@ public class dataChange {
 
             connection = DriverManager.getConnection(url,users,password);
 
-            String sql = " ";//sql语句
+//            String sql = "INSERT INTO mysql.c (cno, cname, tname, credit) VALUES (?, ?, ?, ?) ";//sql语句
+
+            String sql = "update mysql.sc set grade=?,credit=?  where cno = ? and sno =? ORDER BY cno";
+
+            /*
+            cno  sno 作为主键是不能改变的
+             */
 
             preparedStatement = connection.prepareStatement(sql);
 
+            preparedStatement.setInt(1,grade);
+            preparedStatement.setInt(2,credit);
+            preparedStatement.setInt(3,lessonID);
+            preparedStatement.setInt(4,studentID);
+
+            System.out.println( preparedStatement.executeUpdate());
             //        preparedStatement.setString();
 
         } catch (SQLException e) {
@@ -371,16 +415,17 @@ public class dataChange {
 
         }
 
-////////////////////////////////////
 
+////////////////////////////////////
     }
+
 
 
     /*
     *删除数据
      */
 
-    public void deleteStudent(int studentID, String studentName, int sex, int ages, String dept){
+    public void deleteStudent(int studentID){
         //////////////////////////////////////////////////////////////////////
         ResourceBundle bundle = ResourceBundle.getBundle("jdbc");
 
@@ -393,7 +438,7 @@ public class dataChange {
         PreparedStatement preparedStatement =null;
 
         try {
-            Class.forName("driver");
+            Class.forName(driver);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -404,11 +449,14 @@ public class dataChange {
 
             connection = DriverManager.getConnection(url,users,password);
 
-            String sql = " ";//sql语句
+            String sql = "delete from mysql.s where sno = ?";//sql语句
 
             preparedStatement = connection.prepareStatement(sql);
 
             //        preparedStatement.setString();
+            preparedStatement.setInt(1,studentID);
+            System.out.println( preparedStatement.executeUpdate());
+
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -434,8 +482,7 @@ public class dataChange {
 ////////////////////////////////////
     }
 
-    public void deleteLesson(int lessonID,String lessonName,String teacherName,int credit){
-        //////////////////////////////////////////////////////////////////////
+    public void deleteLesson(int lessonID){
         ResourceBundle bundle = ResourceBundle.getBundle("jdbc");
 
         String driver = bundle.getString("driver");
@@ -447,7 +494,7 @@ public class dataChange {
         PreparedStatement preparedStatement =null;
 
         try {
-            Class.forName("driver");
+            Class.forName(driver);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -458,11 +505,14 @@ public class dataChange {
 
             connection = DriverManager.getConnection(url,users,password);
 
-            String sql = " ";//sql语句
+            String sql = "delete from mysql.c where cno = ?";//sql语句
 
             preparedStatement = connection.prepareStatement(sql);
 
             //        preparedStatement.setString();
+            preparedStatement.setInt(1,lessonID);
+            System.out.println( preparedStatement.executeUpdate());
+
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -488,7 +538,7 @@ public class dataChange {
 ////////////////////////////////////
     }
 
-    public void deleteLesson(int studentID,int lessonID,int grade,int credit){
+    public void deleteChooseLesson(int studentID,int lessonID){
         //////////////////////////////////////////////////////////////////////
         ResourceBundle bundle = ResourceBundle.getBundle("jdbc");
 
@@ -501,7 +551,7 @@ public class dataChange {
         PreparedStatement preparedStatement =null;
 
         try {
-            Class.forName("driver");
+            Class.forName(driver);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -512,11 +562,15 @@ public class dataChange {
 
             connection = DriverManager.getConnection(url,users,password);
 
-            String sql = " ";//sql语句
+            String sql = "delete from mysql.sc where cno = ? and sno =?";//sql语句
 
             preparedStatement = connection.prepareStatement(sql);
 
             //        preparedStatement.setString();
+            preparedStatement.setInt(1,lessonID);
+            preparedStatement.setInt(2,studentID);
+            System.out.println( preparedStatement.executeUpdate());
+
 
         } catch (SQLException e) {
             e.printStackTrace();
