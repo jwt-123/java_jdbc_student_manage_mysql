@@ -69,7 +69,6 @@ public class admin_grade implements Grade_2, Grade_1 {
         }
     }
 
-
     public void selectStudentFromClass(int a) {
         ResourceBundle bundle = ResourceBundle.getBundle("jdbc");
 
@@ -563,5 +562,70 @@ public class admin_grade implements Grade_2, Grade_1 {
             }
         }
     }
+
+    public void selectAllStudentAndTheirScore() {  //此处a是课程号
+        //虽然已经废弃，但是东西别乱删，指不定删了哪里就报错了  =)
+        //我大概估摸着有至少仨处报错，但是我懒得删，代码写了我不用，哎，就是玩儿
+        ResourceBundle bundle = ResourceBundle.getBundle("jdbc");
+
+        String driver = bundle.getString("driver");
+        String url = bundle.getString("url");
+        String users = bundle.getString("users");
+        String password = bundle.getString("password");
+
+        Connection connection = null;
+        PreparedStatement preparedStatement =null;
+        ResultSet resultSet =null;
+
+        try {
+            forName(driver);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            connection = DriverManager.getConnection(url,users,password);
+
+            String sql = "select distinct sc.sno,sname from mysql.sc,mysql.s where sc.sno=s.sno  and cno = ?";
+
+            preparedStatement = connection.prepareStatement(sql);
+
+//            preparedStatement.setInt(1,a);
+            resultSet= preparedStatement.executeQuery();
+            System.out.println("学号 姓名");
+            while (resultSet.next()){
+                System.out.println(resultSet.getString(1)+resultSet.getString(2));
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            if (connection != null){
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (preparedStatement != null){
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (resultSet != null){
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    } //已废弃，太麻烦不想写
+
 }
 

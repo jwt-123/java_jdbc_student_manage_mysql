@@ -11,7 +11,8 @@ public class StartMenu {
 
 
         changeStudentInformationResult changeStudentInformationResult = new changeStudentInformationResult();
-        changeStudentInformationResult.addLessonInformation();
+//        changeStudentInformationResult.addChooseLesson();
+//        changeStudentInformationResult.deleteLessonInformation();
 
         Scanner scanner = new Scanner(System.in);
 //        int a = scanner.nextInt();
@@ -62,6 +63,7 @@ public class StartMenu {
                 String nextToDo = "Y";
                 while (nextToDo.equals("Y")){
 
+                    System.out.println("===查询功能===");
                     System.out.println("1.根据课号查课程名");
                     System.out.println("2.根据学号查学生名");
                     System.out.println("3.根据课程号查不及格学生");
@@ -71,33 +73,52 @@ public class StartMenu {
                     System.out.println("7.计算比80分高的人");
                     System.out.println("8.计算比60分高的人");
                     System.out.println("9.计算比60分低的人");
-
+                    System.out.println("===添加数据===");
+                    System.out.println("10.添加学生");
+                    System.out.println("11.添加课程");
+                    System.out.println("12.添加选课");
+                    System.out.println("===编辑数据===");
+                    System.out.println("13.编辑学生");
+                    System.out.println("14.编辑课程");
+                    System.out.println("15.编辑选课");
+                    System.out.println("===删除数据===");
+                    System.out.println("16.删除学生");
+                    System.out.println("17.删除课程");
+                    System.out.println("18.删除选课");
 
                     int adminChoice = 0;
                     System.out.println("请输入选择");
                     adminChoice = scanner.nextInt();
                     switch (adminChoice){
                         case 1:{
+                            System.out.println("输入课号");
                             int a = scanner.nextInt();
+
+
                             adminPower.selectLessonFromClass(a);
                             break;
                         }
                         case 2:{
+                            System.out.println("输入学号");
                             int a = scanner.nextInt();
+
                             adminPower.selectStudentFromClass(a);
                             break;
                         }
                         case 3:{
+                            System.out.println("输入课程号");
                             int a = scanner.nextInt();
                             adminPower.selectFailedStudent(a);
                             break;
                         }
                         case 4:{
+                            System.out.println("输入学号");
                             int a = scanner.nextInt();
                             adminPower.selectTotalScoreFromStudent(a);
                             break;
                         }
                         case 5:{
+                            System.out.println("输入学号");
                             int a = scanner.nextInt();
                             adminPower.selectEachScoreFromStudent(a);
                             break;
@@ -122,8 +143,63 @@ public class StartMenu {
                             int a = scanner.nextInt();
                             adminPower.calculate_Lesson_Score_Low60(a);
                             break;
-                        } default:{
 
+                        }
+                        case 10:{
+                            int a = scanner.nextInt();
+                            changeStudentInformationResult.addStudentInformation();
+                            break;
+
+                        }
+                        case 11:{
+                            int a = scanner.nextInt();
+                            changeStudentInformationResult.addLessonInformation();
+                            break;
+
+                        }
+                        case 12:{
+                            int a = scanner.nextInt();
+                            changeStudentInformationResult.addChooseLesson();
+                            break;
+
+                        }
+                        case 13:{
+                            int a = scanner.nextInt();
+                            changeStudentInformationResult.changeStudentInformation();
+                            break;
+
+                        }
+                        case 14:{
+                            int a = scanner.nextInt();
+                            changeStudentInformationResult.changeLessonInformation();
+                            break;
+
+                        }
+                        case 15:{
+                            int a = scanner.nextInt();
+                            changeStudentInformationResult.changeStudentChooseLessonInformation();
+                            break;
+
+                        }
+                        case 16:{
+                            int a = scanner.nextInt();
+                            changeStudentInformationResult.deleteStudentInformation();
+                            break;
+
+                        }
+                        case 17:{
+                            int a = scanner.nextInt();
+                            changeStudentInformationResult.deleteLessonInformation();
+                            break;
+
+                        }
+                        case 18:{
+                            int a = scanner.nextInt();
+                            changeStudentInformationResult.deleteChooseLessonInformation();
+                            break;
+
+                        }default:{
+                            System.out.println("=====================================");
                         }
 
                         System.out.println("是否继续操作？按F退出");
@@ -162,22 +238,27 @@ public class StartMenu {
                         teacherChoice = scanner.nextInt();
                         switch (teacherChoice){
                             case 1:{
+                                System.out.println("输入课号");
                                 int a = scanner.nextInt();
                                 adminPower.selectLessonFromClass(a);
                             }
                             case 2:{
+                                System.out.println("输入学号");
                                 int a = scanner.nextInt();
                                 adminPower.selectStudentFromClass(a);
                             }
                             case 3:{
+                                System.out.println("输入课号");
                                 int a = scanner.nextInt();
                                 adminPower.selectFailedStudent(a);
                             }
                             case 4:{
+                                System.out.println("输入学号");
                                 int a = scanner.nextInt();
                                 adminPower.selectTotalScoreFromStudent(a);
                             }
                             case 5:{
+                                System.out.println("输入学号");
                                 int a = scanner.nextInt();
                                 adminPower.selectEachScoreFromStudent(a);
                             } default:{
